@@ -93,8 +93,6 @@ class _LocationInputState extends State<LocationInput> {
     if (pickedLocation == null) {
       return;
     }
-    print('Latitude  : ' + pickedLocation.latitude.toString());
-    print('Longitude : ' + pickedLocation.longitude.toString());
     _savePlace(pickedLocation.latitude, pickedLocation.longitude);
   }
 
