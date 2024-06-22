@@ -13,7 +13,7 @@ class UserPlacesNotifier extends StateNotifier<List<Place>> {
     state = [place, ...state];
   }
 
-  void loadPlaces() async {
+  Future<void> loadPlaces() async {
     sql.Database db = await _getDatabase();
     final data = await db.query('user_places');
     final places = data
