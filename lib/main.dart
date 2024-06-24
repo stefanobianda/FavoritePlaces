@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+const String globalApiKey = 'AIzaSyDqntIuPXbossN3Gzkjco28LO_0hrr4I_g';
+const String globalApiKey2 = 'AIzaSyBRf494Oxo8hwXI4LGbYupKYqewmMvSy_Q';
+
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
   seedColor: const Color.fromARGB(255, 102, 6, 247),
