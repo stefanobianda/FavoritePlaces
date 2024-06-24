@@ -45,4 +45,4 @@ app.*.map.json
 # Environment variable, do not store on github
 .env
 env.dart
-env.g.fart
+env.g.dart

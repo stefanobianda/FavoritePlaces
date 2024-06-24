@@ -1,12 +1,14 @@
 import 'dart:convert';
 
-import 'package:favorite_places/main.dart';
+import 'package:favorite_places/env/env.dart';
 import 'package:favorite_places/models/place.dart';
 import 'package:favorite_places/screens/map.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+
+const String apiKey = Env.apiKey;
 
 class LocationInput extends StatefulWidget {
   const LocationInput({super.key, required this.onSelectLocation});
@@ -26,7 +28,6 @@ class _LocationInputState extends State<LocationInput> {
   String get locationImage {
     final lat = _pickedLocation!.latitude;
     final lng = _pickedLocation!.longitude;
-    const apiKey = globalApiKey;
     print('start...');
     return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=$apiKey';
   }
@@ -70,7 +71,6 @@ class _LocationInputState extends State<LocationInput> {
   }
 
   Future<void> _savePlace(double lat, double lng) async {
-    const apiKey = globalApiKey;
     final url = Uri.parse(
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$apiKey');
     print('start...');
