@@ -23,6 +23,10 @@ if (flutterVersionName == null) {
     flutterVersionName = "1.0"
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def googleMapsApiKey = properties.getProperty('segment.googleMapsApiKey')
+
 android {
     namespace = "com.example.favorite_places"
     compileSdk = flutter.compileSdkVersion
@@ -42,6 +46,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
+        manifestPlaceholders += [googleMapsApiKey: googleMapsApiKey]
     }
 
     buildTypes {
