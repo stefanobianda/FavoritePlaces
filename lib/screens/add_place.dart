@@ -6,6 +6,8 @@ import 'package:favorite_places/widgets/image_input.dart';
 import 'package:favorite_places/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class AddPlaceScreen extends ConsumerStatefulWidget {
   const AddPlaceScreen({super.key});
@@ -21,13 +23,25 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   File? _selectedImage;
   PlaceLocation? _selectedLocation;
 
-  void _savePlace() {
+  Future<File> loadImage() async {
+    const String url =
+        'https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg';
+    final http.Response response = await http.get(Uri.parse(url));
+    final dir = await getTemporaryDirectory();
+    var filename = '${dir.path}/image.png';
+    final file = File(filename);
+    await file.writeAsBytes(response.bodyBytes);
+    print(file.path);
+    return file;
+  }
+
+  void _savePlace() async {
     final enteredText = _titleController.text;
-    if (enteredText.isEmpty ||
-        _selectedImage == null ||
-        _selectedLocation == null) {
+    if (enteredText.isEmpty || _selectedLocation == null) {
       return;
     }
+
+    _selectedImage ??= await loadImage();
 
     ref
         .read(userPlaceProvider.notifier)

@@ -4,9 +4,10 @@ import 'package:favorite_places/env/env.dart';
 import 'package:favorite_places/models/place.dart';
 import 'package:favorite_places/screens/map.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
 
 const String apiKey = Env.apiKey;
 
@@ -36,7 +37,9 @@ class _LocationInputState extends State<LocationInput> {
 
     bool serviceEnabled;
     PermissionStatus permissionGranted;
-    LocationData locationData;
+    Position locationData;
+
+    print('getLocation started');
 
     serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled) {
@@ -46,6 +49,8 @@ class _LocationInputState extends State<LocationInput> {
       }
     }
 
+    print('service enabled');
+
     permissionGranted = await location.hasPermission();
     if (permissionGranted == PermissionStatus.denied) {
       permissionGranted = await location.requestPermission();
@@ -54,17 +59,19 @@ class _LocationInputState extends State<LocationInput> {
       }
     }
 
+    print('permission grented');
+
     setState(() {
       _isGettingLocation = true;
     });
 
-    locationData = await location.getLocation();
+    print('is getting location');
+
+    locationData = await Geolocator.getCurrentPosition();
     final lat = locationData.latitude;
     final lng = locationData.longitude;
 
-    if (lat == null || lng == null) {
-      return;
-    }
+    print('lat and lng not null');
 
     await _savePlace(lat, lng);
   }
